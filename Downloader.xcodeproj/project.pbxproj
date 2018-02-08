@@ -8,22 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		A90A17491FE9FC8200175497 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A17481FE9FC8200175497 /* AppDelegate.swift */; };
-		A90A174B1FE9FC8200175497 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A174A1FE9FC8200175497 /* FirstViewController.swift */; };
-		A90A174D1FE9FC8200175497 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A174C1FE9FC8200175497 /* SecondViewController.swift */; };
+		A90A174B1FE9FC8200175497 /* DownloadListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A174A1FE9FC8200175497 /* DownloadListViewController.swift */; };
+		A90A174D1FE9FC8200175497 /* VideoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A174C1FE9FC8200175497 /* VideoListViewController.swift */; };
 		A90A17501FE9FC8200175497 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90A174E1FE9FC8200175497 /* Main.storyboard */; };
 		A90A17521FE9FC8200175497 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A90A17511FE9FC8200175497 /* Assets.xcassets */; };
 		A90A17551FE9FC8200175497 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90A17531FE9FC8200175497 /* LaunchScreen.storyboard */; };
+		A90A175F1FEB353B00175497 /* videoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A175E1FEB353B00175497 /* videoItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A90A17451FE9FC8200175497 /* Downloader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Downloader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90A17481FE9FC8200175497 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A90A174A1FE9FC8200175497 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		A90A174C1FE9FC8200175497 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		A90A174A1FE9FC8200175497 /* DownloadListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadListViewController.swift; sourceTree = "<group>"; };
+		A90A174C1FE9FC8200175497 /* VideoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoListViewController.swift; sourceTree = "<group>"; };
 		A90A174F1FE9FC8200175497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A90A17511FE9FC8200175497 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A90A17541FE9FC8200175497 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A90A17561FE9FC8200175497 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A90A175E1FEB353B00175497 /* videoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = videoItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +58,14 @@
 		A90A17471FE9FC8200175497 /* Downloader */ = {
 			isa = PBXGroup;
 			children = (
-				A90A17481FE9FC8200175497 /* AppDelegate.swift */,
-				A90A174A1FE9FC8200175497 /* FirstViewController.swift */,
-				A90A174C1FE9FC8200175497 /* SecondViewController.swift */,
-				A90A174E1FE9FC8200175497 /* Main.storyboard */,
 				A90A17511FE9FC8200175497 /* Assets.xcassets */,
+				A90A17481FE9FC8200175497 /* AppDelegate.swift */,
+				A90A174C1FE9FC8200175497 /* VideoListViewController.swift */,
+				A90A174A1FE9FC8200175497 /* DownloadListViewController.swift */,
+				A90A174E1FE9FC8200175497 /* Main.storyboard */,
 				A90A17531FE9FC8200175497 /* LaunchScreen.storyboard */,
 				A90A17561FE9FC8200175497 /* Info.plist */,
+				A90A175E1FEB353B00175497 /* videoItem.swift */,
 			);
 			path = Downloader;
 			sourceTree = "<group>";
@@ -139,9 +142,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A90A174D1FE9FC8200175497 /* SecondViewController.swift in Sources */,
+				A90A174D1FE9FC8200175497 /* VideoListViewController.swift in Sources */,
 				A90A17491FE9FC8200175497 /* AppDelegate.swift in Sources */,
-				A90A174B1FE9FC8200175497 /* FirstViewController.swift in Sources */,
+				A90A175F1FEB353B00175497 /* videoItem.swift in Sources */,
+				A90A174B1FE9FC8200175497 /* DownloadListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
