@@ -20,23 +20,23 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
    
     @IBOutlet var videoListView: UITableView!
     
-    var myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
-    
-    var tempDownloads = [[String: String]]()
-    
     var song_list = [videoItem]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        videoListView.dataSource = self
-        videoListView.delegate = self
-        videoListView.register(songsTableViewCell.self,forCellReuseIdentifier: "Cell")
     }
        
     
     override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        videoListView.dataSource = self
+        videoListView.delegate = self
+        videoListView.register(songsTableViewCell.self,forCellReuseIdentifier: "Cell")
         
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
@@ -64,19 +64,12 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                 } catch {
                     print("Error deserializing JSON: \(error)")
                 }
+                
             }
             
         }
         task.resume()
-        
-        
         videoListView.reloadData()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        videoListView.reloadData()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -94,15 +87,22 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! songsTableViewCell
         let item = song_list[indexPath.row]
+        
         cell.videoTitle?.text = item.title
-        cell.videoURL?.text = item.video
-        //cell.id?.text = item.id
-        //cell.coverImage?.image = item.image
+        cell.accessoryType = .checkmark
+
         return cell
     }
     
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath){
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "All Songs"
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
         tableView.isUserInteractionEnabled = true;
         
@@ -136,9 +136,12 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                                 print("Successfully downloaded. Status code: \(statusCode)")
                                 
                                 print("---Writing to Downloads---")
-                                
-                                self.tempDownloads.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
-                                UserDefaults.standard.set(self.tempDownloads, forKey: "Downloads")
+                                let myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
+
+                                var tempDownloads = [[String: String]]()
+                                tempDownloads = myDownloadsArray!
+                                tempDownloads.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
+                                UserDefaults.standard.set(tempDownloads, forKey: "Downloads")
                                 print(destinationFileUrl)
                                 print("---------")
                                 
