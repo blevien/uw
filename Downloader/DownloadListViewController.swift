@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 import AVFoundation
 
-class DownloadListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AVPlayerViewControllerDelegate {
+class DownloadListViewController: UIViewController, AVPlayerViewControllerDelegate {
     
     @IBOutlet weak var videoLabel: UILabel!
     
@@ -18,9 +18,7 @@ class DownloadListViewController: UIViewController, UITableViewDataSource, UITab
 
     override func viewDidLoad(){
         super.viewDidLoad()
-        videoListView.dataSource = self
-        videoListView.delegate = self
-        videoListView.register(VideoClipsTableViewCell.self, forCellReuseIdentifier: "Cell")
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,13 +37,6 @@ class DownloadListViewController: UIViewController, UITableViewDataSource, UITab
         super.didReceiveMemoryWarning()
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

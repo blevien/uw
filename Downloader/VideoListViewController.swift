@@ -20,8 +20,10 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
    
     @IBOutlet var videoListView: UITableView!
     
-    var defaults = UserDefaults.standard.array(forKey: "Downloads") as! [[String:String]]
-
+    var myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
+    
+    var tempDownloads = [[String: String]]()
+    
     var song_list = [videoItem]()
     
     
@@ -103,7 +105,6 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                    didSelectRowAt indexPath: IndexPath){
         
         tableView.isUserInteractionEnabled = true;
-        var myDownloadsArray = defaults
         
         if let indexPath = self.videoListView.indexPathForSelectedRow{
             let video = song_list[indexPath.row]
@@ -136,8 +137,8 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                                 
                                 print("---Writing to Downloads---")
                                 
-                                myDownloadsArray.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
-                                UserDefaults.standard.set(myDownloadsArray, forKey: "Downloads")
+                                self.tempDownloads.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
+                                UserDefaults.standard.set(self.tempDownloads, forKey: "Downloads")
                                 print(destinationFileUrl)
                                 print("---------")
                                 
