@@ -94,10 +94,20 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! songsTableViewCell
+        
         let item = song_list[indexPath.row]
+        let myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
+
         
         cell.videoTitle?.text = item.title
-        cell.accessoryType = .checkmark
+        cell.accessoryType = .none
+        for video in myDownloadsArray!{
+            if item.video == video["video"]{
+            cell.accessoryType = .checkmark
+            }
+        }
+        
+        
 
         return cell
     }
@@ -159,6 +169,9 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                                 UserDefaults.standard.set(tempDownloads, forKey: "Downloads")
                                 print(destinationFileUrl)
                                 print("---------")
+                                DispatchQueue.main.async(){
+                                    self.videoListView.reloadData()
+                                }
                                 
                             } else {
                                 print("URL was bad")
