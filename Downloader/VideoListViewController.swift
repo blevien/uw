@@ -22,9 +22,13 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
     
     var song_list = [videoItem]()
     
+    @IBOutlet weak var coverImage: UIImageView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.coverImage?.backgroundColor = UIColor.black
+        self.coverImage?.contentMode = .scaleAspectFit
+        self.coverImage?.image = #imageLiteral(resourceName: "UncleWayne")
     }
        
     
@@ -59,6 +63,9 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                                                             image: (song["imageURL"]! as? String)!,
                                                             video: (song["videoURL"]! as? String)!))
                         }
+                        DispatchQueue.main.async(){
+                            self.videoListView.reloadData()
+                        }
                     }
                     
                 } catch {
@@ -69,7 +76,8 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
             
         }
         task.resume()
-        videoListView.reloadData()
+        
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,16 +121,21 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
             let filename = video.video
             let urlString = "https://cs50-bill-levien.cs50.io:8080/static/videos/" + filename
             
+            // Create destination URL
+            let fileManager = FileManager.default
+            let documentsUrl:URL =  fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
+            let destinationFileUrl = documentsUrl.appendingPathComponent(filename)
+            
+            
+            
             //Check to see if it already exists
-
-                    // Create destination URL
-                    let documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
-                    let destinationFileUrl = documentsUrl.appendingPathComponent(filename)
-                    
-                    
+            if (fileManager.fileExists(atPath: destinationFileUrl.absoluteString)){
+                print("File Exists")
+            }
+            else{
                     //Create URL to the source file you want to download
                     let fileURL = URL(string: urlString)
-                    
+                
                     let sessionConfig = URLSessionConfiguration.default
                     let session = URLSession(configuration: sessionConfig)
                     
@@ -139,7 +152,9 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                                 let myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
 
                                 var tempDownloads = [[String: String]]()
-                                tempDownloads = myDownloadsArray!
+                                if myDownloadsArray != nil{
+                                    tempDownloads = myDownloadsArray!
+                                }
                                 tempDownloads.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
                                 UserDefaults.standard.set(tempDownloads, forKey: "Downloads")
                                 print(destinationFileUrl)
@@ -165,3 +180,4 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
             }
     }
 
+}

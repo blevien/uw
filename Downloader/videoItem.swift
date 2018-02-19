@@ -13,6 +13,7 @@ class videoItem: NSObject {
     var id: String
     var image: String
     var video: String
+    //var downloaded: Bool
     
     
     // Returns a Video Object
@@ -21,6 +22,7 @@ class videoItem: NSObject {
         self.id = id
         self.image = image
         self.video = video
+        //self.downloaded = downloaded
     }
     
 }

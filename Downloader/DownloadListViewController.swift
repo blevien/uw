@@ -28,7 +28,7 @@ class DownloadListViewController: UIViewController, AVPlayerViewControllerDelega
         if (myDownloadsArray != nil){
             for download in myDownloadsArray!{
                 print(download)}
-            videoLabel.text =  myDownloadsArray?[3]["title"]
+            videoLabel.text =  myDownloadsArray?[0]["title"]
         }
     }
     
@@ -44,7 +44,7 @@ class DownloadListViewController: UIViewController, AVPlayerViewControllerDelega
 
         let fm = FileManager.default
         let docsurl = try! fm.url(for:.documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let myurl = docsurl.appendingPathComponent(myDownloadsArray![3]["video"]!)
+        let myurl = docsurl.appendingPathComponent(myDownloadsArray![0]["video"]!)
         print(myurl)
         destination.player = AVPlayer(url: myurl)
         destination.player?.playImmediately(atRate: 1.0)

@@ -97,6 +97,7 @@
                     <tabBarItem key="tabBarItem" title="All Songs" image="second" id="cPa-gy-q4n"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <connections>
+                        <outlet property="coverImage" destination="n4m-L5-yFz" id="WyY-8A-Waa"/>
                         <outlet property="videoListView" destination="tLl-R2-zhg" id="e2f-oz-ba9"/>
                     </connections>
                 </viewController>
