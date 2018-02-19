@@ -101,9 +101,11 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
         
         cell.videoTitle?.text = item.title
         cell.accessoryType = .none
-        for video in myDownloadsArray!{
+        
+        if myDownloadsArray != nil{ for video in myDownloadsArray!{
             if item.video == video["video"]{
             cell.accessoryType = .checkmark
+            }
             }
         }
         
@@ -129,68 +131,76 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
             
             // Get Name for File
             let filename = video.video
-            let urlString = "https://cs50-bill-levien.cs50.io:8080/static/videos/" + filename
             
-            // Create destination URL
-            let fileManager = FileManager.default
-            let documentsUrl:URL =  fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
-            let destinationFileUrl = documentsUrl.appendingPathComponent(filename)
-            
-            
-            
-            //Check to see if it already exists
-            if (fileManager.fileExists(atPath: destinationFileUrl.absoluteString)){
-                print("File Exists")
-            }
-            else{
-                    //Create URL to the source file you want to download
-                    let fileURL = URL(string: urlString)
-                
-                    let sessionConfig = URLSessionConfiguration.default
-                    let session = URLSession(configuration: sessionConfig)
-                    
-                    let request = URLRequest(url:fileURL!)
-                    
-                    let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-                        if let tempLocalUrl = tempLocalUrl, error == nil {
-                            // Success
-                            if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                                
-                                print("Successfully downloaded. Status code: \(statusCode)")
-                                
-                                print("---Writing to Downloads---")
-                                let myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
+            var downloaded = false
+            let myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
 
-                                var tempDownloads = [[String: String]]()
-                                if myDownloadsArray != nil{
-                                    tempDownloads = myDownloadsArray!
-                                }
-                                tempDownloads.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
-                                UserDefaults.standard.set(tempDownloads, forKey: "Downloads")
-                                print(destinationFileUrl)
-                                print("---------")
-                                DispatchQueue.main.async(){
-                                    self.videoListView.reloadData()
-                                }
-                                
-                            } else {
-                                print("URL was bad")
-                            }
+            if myDownloadsArray != nil{
+                for video in myDownloadsArray!{
+                    if filename == video["video"]{
+                        downloaded = true
+                    }
+                }
+            }
+            
+            if !downloaded{
+                let urlString = "https://cs50-bill-levien.cs50.io:8080/static/videos/" + filename
+                
+                // Create destination URL
+                let fileManager = FileManager.default
+                let documentsUrl:URL =  fileManager.urls(for: .documentDirectory, in: .userDomainMask).first as URL!
+                let destinationFileUrl = documentsUrl.appendingPathComponent(filename)
+                
+            
+                //Create URL to the source file you want to download
+                let fileURL = URL(string: urlString)
+            
+                let sessionConfig = URLSessionConfiguration.default
+                let session = URLSession(configuration: sessionConfig)
+            
+                let request = URLRequest(url:fileURL!)
+            
+                let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                    if let tempLocalUrl = tempLocalUrl, error == nil {
+                        // Success
+                        if let statusCode = (response as? HTTPURLResponse)?.statusCode {
                             
-                            do {
-                                try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
-                            } catch (let writeError) {
-                                print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                            print("Successfully downloaded. Status code: \(statusCode)")
+                            
+                            print("---Writing to Downloads---")
+                            let myDownloadsArray = UserDefaults.standard.array(forKey: "Downloads") as? [[String: String]]
+
+                            var tempDownloads = [[String: String]]()
+                            if myDownloadsArray != nil{
+                                tempDownloads = myDownloadsArray!
+                            }
+                            tempDownloads.append(["title":video.title, "id":video.id, "image":video.image, "video":video.video, "localURL":destinationFileUrl.absoluteString])
+                            UserDefaults.standard.set(tempDownloads, forKey: "Downloads")
+                            print(destinationFileUrl)
+                            print("---------")
+                            DispatchQueue.main.async(){
+                                self.videoListView.reloadData()
                             }
                             
                         } else {
-                            print("Error took place while downloading a file. Error description: %s", error?.localizedDescription as Any);
+                            print("URL was bad")
                         }
+                        
+                        do {
+                            try FileManager.default.copyItem(at: tempLocalUrl, to: destinationFileUrl)
+                        } catch (let writeError) {
+                            print("Error creating a file \(destinationFileUrl) : \(writeError)")
+                        }
+                        
+                    } else {
+                        print("Error took place while downloading a file. Error description: %s", error?.localizedDescription as Any);
                     }
-                    task.resume()
-                    
                 }
+                task.resume()
+            
             }
+        }
+        print("Already DOwnloaded")
     }
 
 }
