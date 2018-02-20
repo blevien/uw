@@ -124,7 +124,8 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         
-        tableView.isUserInteractionEnabled = true;
+        self.videoListView.isUserInteractionEnabled = false
+
         
         if let indexPath = self.videoListView.indexPathForSelectedRow{
             let video = song_list[indexPath.row]
@@ -191,16 +192,21 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                         } catch (let writeError) {
                             print("Error creating a file \(destinationFileUrl) : \(writeError)")
                         }
-                        
                     } else {
                         print("Error took place while downloading a file. Error description: %s", error?.localizedDescription as Any);
                     }
+                    self.videoListView.isUserInteractionEnabled = true
                 }
+                
                 task.resume()
             
             }
+            else{
+                print("Already Downloaded")
+            }
+            
         }
-        print("Already DOwnloaded")
+        
     }
 
 }
