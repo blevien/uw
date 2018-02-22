@@ -24,17 +24,19 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
     
     @IBOutlet weak var coverImage: UIImageView?
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        tabBarItem.image = UIImage(named: "list")?.withRenderingMode(UIImageRenderingMode.automatic)
+        tabBarItem.selectedImage = UIImage(named: "list")?.withRenderingMode(UIImageRenderingMode.automatic)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.coverImage?.backgroundColor = UIColor.black
         self.coverImage?.contentMode = .scaleAspectFit
         self.coverImage?.image = #imageLiteral(resourceName: "UncleWayne")
     }
-       
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -44,7 +46,7 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
         
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let url = URL(string: "https://cs50-bill-levien.cs50.io:8080/api/get_songs")!
+        let url = URL(string: "https://storage.googleapis.com/staging.uncle-wayne-196006.appspot.com/get_songs.json")!
         let task = session.dataTask(with: url) { (JSONdata, response, error) in
             if error != nil {
                 print(error!.localizedDescription)
@@ -78,10 +80,6 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
         task.resume()
         
 
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -145,7 +143,7 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
             }
             
             if !downloaded{
-                let urlString = "https://cs50-bill-levien.cs50.io:8080/static/videos/" + filename
+                let urlString = "https://storage.googleapis.com/staging.uncle-wayne-196006.appspot.com/" + filename
                 
                 // Create destination URL
                 let fileManager = FileManager.default
@@ -195,13 +193,14 @@ class VideoListViewController: UIViewController,UITableViewDataSource, UITableVi
                     } else {
                         print("Error took place while downloading a file. Error description: %s", error?.localizedDescription as Any);
                     }
-                    self.videoListView.isUserInteractionEnabled = true
+                    DispatchQueue.main.async{ self.videoListView.isUserInteractionEnabled = true}
                 }
                 
                 task.resume()
             
             }
             else{
+                self.videoListView.isUserInteractionEnabled = true
                 print("Already Downloaded")
             }
             
